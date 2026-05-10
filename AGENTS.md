@@ -5,10 +5,11 @@ Flutter-first coding rules for Codex.
 ## Work Rules
 
 - Read nearby code first.
+- Check `.agents/project-map.md` before broad searches; if missing or stale, infer areas from repo structure and update it.
 - Follow existing architecture, naming, formatting, and test style.
 - Keep changes small and scoped.
 - Always prefer the minimal-token approach.
-- Keep this template minimal: only `README.md` is user-facing; other files are for Codex use.
+- Keep Codex guidance minimal and scoped to the active repo.
 - Avoid adding extra docs, checklists, templates, or verbose guidance unless clearly needed.
 - Preserve user changes; never reset unrelated work.
 - Add/update tests when behavior changes.
@@ -56,13 +57,27 @@ Core: `business-analyst`, `team-lead`, `flutter-developer`, `qa`.
 
 Optional specialists: `backend-api-developer`, `devops-release-engineer`, `security-privacy-reviewer`, `ux-product-reviewer`.
 
-Model preferences: `team-lead` GPT-5.5, `flutter-developer` GPT-5.3-Codex, `qa` GPT-5.4, all other roles GPT-5.4-Mini unless complexity requires stronger.
+Model selection: use the best available model for the role and task.
 
-If a preferred model is unavailable, use the nearest capable model and state the fallback.
+- `team-lead`: strongest reasoning model available.
+- `flutter-developer`: best coding-optimized model available.
+- `qa`: strong reasoning model with good code/test analysis.
+- Other specialists: fast capable model; upgrade when complexity or risk requires it.
+- If a newer model supersedes these choices, prefer the newer capable model.
+- Record chosen model and fallback reason in the role report.
 
 Do not use subagents for trivial edits, formatting, copy changes, or one-file fixes.
 
-Subagent output returns as the subagent final response by default. Write files only when persistent artifacts are needed, under `reports/subagents/<task-slug>/<role>.md`.
+When subagents are used, always write reports under `reports/subagents/<task-slug>/`.
+
+- Pass relevant `.agents/project-map.md` areas and paths into each subagent prompt.
+- Ask `team-lead` or the first relevant developer subagent to update `.agents/project-map.md` when task terms do not map to known areas.
+- Maintain `timeline.md` with handoffs, decisions, rejections, revisions, and final outcome.
+- Write each role report as `<role>.md`; append `Run N` sections when the same role runs again.
+- Use `$caveman full`: precise fragments, no filler.
+- Include task, actions, files changed/read, findings, verification, blockers, and next step.
+- Link reports in the final response.
+- Close subagents after their report is written and their result is integrated.
 
 ## Git
 
