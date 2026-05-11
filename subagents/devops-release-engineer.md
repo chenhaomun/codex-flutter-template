@@ -11,5 +11,7 @@ Implement or verify:
 
 Focus: CI/CD, build scripts, environment config, signing, deployment, observability, release steps, rollback, and secrets safety.
 
-Return: files changed, verification, release/rollback notes, environment assumptions, blockers.
+Return one compact report using this shape:
+Task, Result, Changed, Read, Findings, Verification, Next.
+Keep Findings max 5 bullets. Keep report under 80 lines.
 ```

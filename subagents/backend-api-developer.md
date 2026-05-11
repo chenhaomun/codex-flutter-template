@@ -11,5 +11,7 @@ Implement:
 
 Focus: services, API contracts, DTOs, data models, migrations, fixtures, integration tests, compatibility, auth, idempotency, and secrets safety.
 
-Return: files changed, contract/migration notes, verification, compatibility, blockers.
+Return one compact report using this shape:
+Task, Result, Changed, Read, Findings, Verification, Next.
+Keep Findings max 5 bullets. Keep report under 80 lines.
 ```

@@ -2,6 +2,24 @@
 
 Flutter-first coding rules for Codex.
 
+## Repo Layout
+
+- `AGENTS.md`: repo instructions for Codex.
+- `.agents/project-map.md`: folder-level map from product/code areas to repo directories.
+- `subagents/`: reusable subagent prompt templates.
+- `reports/subagents/`: generated subagent reports, grouped by task slug.
+- App source, tests, scripts, and platform folders vary by copied project; inspect the root before work.
+
+## Commands
+
+- Discover project type: inspect root files such as `pubspec.yaml`, `analysis_options.yaml`, package files, and scripts.
+- Run Flutter app: `flutter run --dart-define-from-file=.env.dev.json`.
+- Analyze: `flutter analyze`.
+- Test: `flutter test`.
+- Build Android: `flutter build apk --dart-define-from-file=.env.prod.json`.
+- Build iOS: `flutter build ios --dart-define-from-file=.env.prod.json`.
+- Use existing project scripts when present; do not invent new commands before checking the repo.
+
 ## Work Rules
 
 - Read nearby code first.
@@ -51,6 +69,13 @@ Flutter-first coding rules for Codex.
 - Update DTOs, generated clients, fixtures, mocks, migrations, and tests together.
 - Do not silently change public API behavior.
 
+## PR Expectations
+
+- Keep PRs scoped to one user goal.
+- Include behavior change, files touched, verification run, and known gaps.
+- Mention migrations, API changes, env changes, permissions, or release notes when relevant.
+- Do not mix unrelated refactors with feature or bug work.
+
 ## Subagents
 
 Core: `business-analyst`, `team-lead`, `flutter-developer`, `qa`.
@@ -70,12 +95,21 @@ Do not use subagents for trivial edits, formatting, copy changes, or one-file fi
 
 When subagents are used, always write reports under `reports/subagents/<task-slug>/`.
 
-- Pass relevant `.agents/project-map.md` areas and paths into each subagent prompt.
+- Pass relevant `.agents/project-map.md` areas and folders into each subagent prompt.
 - Ask `team-lead` or the first relevant developer subagent to update `.agents/project-map.md` when task terms do not map to known areas.
-- Maintain `timeline.md` with handoffs, decisions, rejections, revisions, and final outcome.
-- Write each role report as `<role>.md`; append `Run N` sections when the same role runs again.
+- Maintain `timeline.md` as a short event log: time/order, role, action, decision, outcome.
+- Write each role report as `<role>.md`.
+- If the same role runs again, append a new `## Run N - <short reason>` section instead of rewriting prior runs.
+- Use this report shape only:
+  - `Task`: one sentence.
+  - `Result`: done, partial, blocked, or rejected.
+  - `Changed`: files changed, or `None`.
+  - `Read`: key folders/files only, max 6.
+  - `Findings`: max 5 bullets, severity/order first.
+  - `Verification`: commands/checks and result.
+  - `Next`: one concrete next step, or `None`.
+- Keep each run report under 80 lines unless a blocker needs evidence.
 - Use `$caveman full`: precise fragments, no filler.
-- Include task, actions, files changed/read, findings, verification, blockers, and next step.
 - Link reports in the final response.
 - Close subagents after their report is written and their result is integrated.
 
