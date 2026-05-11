@@ -32,11 +32,12 @@ Flutter-first coding rules for Codex.
 - Preserve user changes; never reset unrelated work.
 - Add/update tests when behavior changes.
 - Run the narrowest useful verification.
-- Stop suspicious commands and report command plus elapsed time, e.g. `flutter analyze` around 60s or `flutter test` with no output around 120s.
+- Stop suspicious commands and report command plus elapsed time, e.g. `flutter analyze` around 20s or `flutter test` with no output around 30s.
 - Keep secrets out of source control.
 - Ask before installing packages, plugins, tools, or global dependencies.
 - Do not introduce new frameworks, state managers, databases, or services without clear need.
 - Default to `$caveman lite`; use normal mode only when user asks or detail is necessary.
+- Keep responses short and precise. Do not explain further unless asked or needed for safety/blockers.
 
 ## Flutter Rules
 
