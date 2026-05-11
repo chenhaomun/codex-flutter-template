@@ -100,14 +100,15 @@ When subagents are used, always write reports under `reports/subagents/<task-slu
 - Maintain `timeline.md` as a short event log: time/order, role, action, decision, outcome.
 - Write each role report as `<role>.md`.
 - If the same role runs again, append a new `## Run N - <short reason>` section instead of rewriting prior runs.
+- Use table format for every run report.
+- Do not include files read unless they are essential evidence for a decision.
 - Use this report shape only:
-  - `Task`: one sentence.
-  - `Result`: done, partial, blocked, or rejected.
-  - `Changed`: files changed, or `None`.
-  - `Read`: key folders/files only, max 6.
-  - `Findings`: max 5 bullets, severity/order first.
-  - `Verification`: commands/checks and result.
-  - `Next`: one concrete next step, or `None`.
+  - `## Run N - <short reason>`
+  - `| Field | Report |` table with `Task`, `Result`, `Changed`, `Verification`, `Next`, and `Final outcome`.
+  - `| Decision | Reason | Outcome |` table for critical decisions only.
+  - `| Step | Critical thinking | Outcome |` table for process summary, max 5 rows.
+- Keep critical thinking short and decision-focused, e.g. rejected a subagent patch because it broke routing ownership.
+- Keep findings inside the decision/process tables; max 5 total decision/process rows each.
 - Keep each run report under 80 lines unless a blocker needs evidence.
 - Use `$caveman full`: precise fragments, no filler.
 - Link reports in the final response.
