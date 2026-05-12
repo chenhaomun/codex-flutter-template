@@ -4,7 +4,9 @@ Minimal Flutter-first Codex setup.
 
 Keep this template minimal: `README.md` is for humans; the rest is for Codex.
 
-Copy into a project root:
+Copy into a project root.
+
+macOS/Linux:
 
 ```sh
 cp AGENTS.md /path/to/project/AGENTS.md
@@ -13,21 +15,39 @@ cp -R subagents /path/to/project/subagents
 cp skills-lock.json /path/to/project/skills-lock.json
 ```
 
+Windows PowerShell:
+
+```powershell
+Copy-Item AGENTS.md C:\path\to\project\AGENTS.md
+Copy-Item .agents C:\path\to\project\.agents -Recurse
+Copy-Item subagents C:\path\to\project\subagents -Recurse
+Copy-Item skills-lock.json C:\path\to\project\skills-lock.json
+```
+
 Use subagents for larger work:
 
 ```text
 Use subagents: business analyst, team lead, flutter developer, and QA.
 
 Task:
-<what to build or fix>
+Add a loading and empty state to the profile screen.
 
 Requirements:
-- <requirement 1>
-- <requirement 2>
-- <requirement 3>
+- Show a spinner while profile data loads.
+- Show a clear empty state when no profile data exists.
+- Keep the existing theme, routing, and state management.
 
 Verify:
-- <command or expected check>
+- flutter analyze
+- flutter test
+```
+
+For messy requirements, ask Codex to format them first:
+
+```text
+/subagent-task
+I need profile to feel better. It should not look broken when data is loading,
+and if no profile exists it should tell the user what to do next.
 ```
 
 Skip subagents for small edits like typos, formatting, copy changes, or one-file fixes. They add coordination cost and can be slower than a direct change.

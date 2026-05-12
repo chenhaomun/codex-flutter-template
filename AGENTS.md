@@ -83,6 +83,33 @@ Core: `business-analyst`, `team-lead`, `flutter-developer`, `qa`.
 
 Optional specialists: `backend-api-developer`, `devops-release-engineer`, `security-privacy-reviewer`, `ux-product-reviewer`.
 
+Routing:
+
+- `business requirements`, `acceptance`, `scope`, `user flow`, `edge cases`: `business-analyst`.
+- `architecture`, `refactor`, `SOLID`, `ownership`, `integration risk`: `team-lead`.
+- `Flutter`, `UI`, `widget`, `state`, `routing`, `platform`, `test implementation`: `flutter-developer`.
+- `API`, `backend`, `DTO`, `migration`, `contract`, `database`: `backend-api-developer`.
+- `CI`, `build`, `release`, `deploy`, `env`, `signing`: `devops-release-engineer`.
+- `security`, `privacy`, `auth`, `permissions`, `secrets`, `payments`: `security-privacy-reviewer`.
+- `UX`, `accessibility`, `copy`, `empty/loading/error state`, `design consistency`: `ux-product-reviewer`.
+- `functional verify`, `manual QA`, `test`, `regression`, `review`, `risk`: `qa`.
+
+Role permissions:
+
+- Read-only by default: `business-analyst`, `team-lead`, `qa`, `security-privacy-reviewer`, `ux-product-reviewer`.
+- Write-capable only with explicit ownership: `flutter-developer`, `backend-api-developer`, `devops-release-engineer`.
+- Developers must not edit outside assigned ownership without reporting the reason first.
+- Reviewers must not change files unless explicitly asked.
+- QA must not add test files unless the user asks for tests.
+
+Execution pattern:
+
+- Sequential for dependent work: `business-analyst` business scope -> `team-lead` technical direction -> developer -> `team-lead review` -> developer revision -> `qa`.
+- Repeat the `team-lead review` -> developer revision loop until the team-lead accepts the direction, or stop after 3 review rounds and report the blocker.
+- Parallel only for independent work, e.g. UX and security review on the same diff.
+- Do not run parallel subagents when one result blocks another.
+- Prefer isolated/forked context for research, review, and verification tasks.
+
 Model selection: use the best available model for the role and task.
 
 - `team-lead`: strongest reasoning model available.
@@ -101,6 +128,8 @@ When subagents are used, always write reports under `reports/subagents/<task-slu
 - Maintain `timeline.md` as a short event log: time/order, role, action, decision, outcome.
 - Write each role report as `<role>.md`.
 - If the same role runs again, append a new `## Run N - <short reason>` section instead of rewriting prior runs.
+- Team-lead review runs must state: accepted, needs revision, or rejected; include the critical reason and required developer change.
+- If no tests exist or tests are not requested, QA verifies with static checks and functional/manual scenarios instead.
 - Use table format for every run report.
 - Do not include files read unless they are essential evidence for a decision.
 - Use this report shape only:
@@ -111,7 +140,7 @@ When subagents are used, always write reports under `reports/subagents/<task-slu
 - Keep critical thinking short and decision-focused, e.g. rejected a subagent patch because it broke routing ownership.
 - Keep findings inside the decision/process tables; max 5 total decision/process rows each.
 - Keep each run report under 80 lines unless a blocker needs evidence.
-- Use `$caveman full`: precise fragments, no filler.
+- Use `$caveman lite`: short, clear, no filler.
 - Link reports in the final response.
 - Close subagents after their report is written and their result is integrated.
 
