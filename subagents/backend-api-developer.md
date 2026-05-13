@@ -11,5 +11,7 @@ Implement:
 
 Focus: services, API contracts, DTOs, data models, migrations, fixtures, integration tests, compatibility, auth, idempotency, and secrets safety.
 
-Report: follow `AGENTS.md` subagent report shape.
+Before operations: provide a short plan with ownership, steps, and verification.
+
+Report: follow `AGENTS.md` and `.agents/skills/subagent-workflow`.
 ```

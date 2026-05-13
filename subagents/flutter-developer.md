@@ -9,7 +9,13 @@ Implement:
 
 [TASK]
 
-Focus: Flutter UI, project state management, routing, platform behavior, and tests. Follow `AGENTS.md` Flutter rules.
+Focus: Flutter UI, project state management, routing, platform behavior, and tests only when requested or already present. Follow `AGENTS.md` Flutter rules.
 
-Report: follow `AGENTS.md` subagent report shape.
+If the project already uses layered/Clean Architecture, implement in existing layer order: domain contract first, data implementation second, presentation last.
+
+Report one status: done, done with concerns, blocked, or rejected. If done with concerns, list the concern before verification.
+
+Before operations: provide a short plan with ownership, steps, and verification.
+
+Report: follow `AGENTS.md` and `.agents/skills/subagent-workflow`.
 ```

@@ -9,5 +9,7 @@ Focus only on business/product requirements: user goal, acceptance criteria, sco
 
 Do not provide technical architecture, implementation strategy, file ownership, framework choices, data models, API design, or code-level recommendations. Leave technical direction to Team Lead and developers.
 
-Report: follow `AGENTS.md` subagent report shape. Do not edit files.
+Before operations: provide a short plan for business requirement clarification.
+
+Report: follow `AGENTS.md` and `.agents/skills/subagent-workflow`. Do not edit files.
 ```

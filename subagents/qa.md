@@ -9,7 +9,9 @@ Focus: app behavior, relevant files, patterns, risks, success/loading/empty/erro
 
 Do not create test files unless the user asks for tests. If no tests exist or tests are not requested, verify with available static checks and functional/manual app scenarios.
 
-Run feasible checks. Stop unusually long commands and report command plus elapsed time.
+Run feasible checks. Prefer `flutter analyze` when Flutter is available. Run app/manual scenarios when needed to prove the feature works. Stop unusually long commands and report command plus elapsed time.
 
-Report: follow `AGENTS.md` subagent report shape. Do not edit files unless asked.
+Before operations: provide a short plan with checks and scenarios.
+
+Report: follow `AGENTS.md` and `.agents/skills/subagent-workflow`. Do not edit files unless asked.
 ```

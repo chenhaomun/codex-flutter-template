@@ -25,6 +25,7 @@ Flutter-first coding rules for Codex.
 - Read nearby code first.
 - Check `.agents/project-map.md` before broad searches; if missing or stale, infer areas from repo structure and update it.
 - Follow existing architecture, naming, formatting, and test style.
+- Adapt workflow patterns only when they fit the current repo; existing project conventions win.
 - Keep changes small and scoped.
 - Always prefer the minimal-token approach.
 - Keep Codex guidance minimal and scoped to the active repo.
@@ -36,6 +37,7 @@ Flutter-first coding rules for Codex.
 - Keep secrets out of source control.
 - Ask before installing packages, plugins, tools, or global dependencies.
 - Do not introduce new frameworks, state managers, databases, or services without clear need.
+- Do not force external defaults such as new packages, Riverpod, Clean Architecture, or test generation.
 - Default to `$caveman lite`; use normal mode only when user asks or detail is necessary.
 - Keep responses short and precise. Do not explain further unless asked or needed for safety/blockers.
 
@@ -49,6 +51,7 @@ Flutter-first coding rules for Codex.
 - Split large files into focused units; avoid many-line files.
 - Use concise Dart syntax, including expression-bodied members, when it stays readable.
 - Use existing state, routing, theme, localization, API, and generator patterns.
+- If the project already uses layered/Clean Architecture, keep changes in the existing layer order: domain contract first, data implementation second, presentation last.
 - Ask before adding dependencies.
 - Use existing routing, design system, component, asset/theme/token conventions unless change is needed.
 - If localization exists, do not add raw user-facing strings.
@@ -83,66 +86,13 @@ Core: `business-analyst`, `team-lead`, `flutter-developer`, `qa`.
 
 Optional specialists: `backend-api-developer`, `devops-release-engineer`, `security-privacy-reviewer`, `ux-product-reviewer`.
 
-Routing:
-
-- `business requirements`, `acceptance`, `scope`, `user flow`, `edge cases`: `business-analyst`.
-- `architecture`, `refactor`, `SOLID`, `ownership`, `integration risk`: `team-lead`.
-- `Flutter`, `UI`, `widget`, `state`, `routing`, `platform`, `test implementation`: `flutter-developer`.
-- `API`, `backend`, `DTO`, `migration`, `contract`, `database`: `backend-api-developer`.
-- `CI`, `build`, `release`, `deploy`, `env`, `signing`: `devops-release-engineer`.
-- `security`, `privacy`, `auth`, `permissions`, `secrets`, `payments`: `security-privacy-reviewer`.
-- `UX`, `accessibility`, `copy`, `empty/loading/error state`, `design consistency`: `ux-product-reviewer`.
-- `functional verify`, `manual QA`, `test`, `regression`, `review`, `risk`: `qa`.
-
-Role permissions:
-
-- Read-only by default: `business-analyst`, `team-lead`, `qa`, `security-privacy-reviewer`, `ux-product-reviewer`.
-- Write-capable only with explicit ownership: `flutter-developer`, `backend-api-developer`, `devops-release-engineer`.
-- Developers must not edit outside assigned ownership without reporting the reason first.
-- Reviewers must not change files unless explicitly asked.
-- QA must not add test files unless the user asks for tests.
-
-Execution pattern:
-
-- Sequential for dependent work: `business-analyst` business scope -> `team-lead` technical direction -> developer -> `team-lead review` -> developer revision -> `qa`.
-- Repeat the `team-lead review` -> developer revision loop until the team-lead accepts the direction, or stop after 3 review rounds and report the blocker.
-- Parallel only for independent work, e.g. UX and security review on the same diff.
-- Do not run parallel subagents when one result blocks another.
-- Prefer isolated/forked context for research, review, and verification tasks.
-
-Model selection: use the best available model for the role and task.
-
-- `team-lead`: strongest reasoning model available.
-- `flutter-developer`: best coding-optimized model available.
-- `qa`: strong reasoning model with good code/test analysis.
-- Other specialists: fast capable model; upgrade when complexity or risk requires it.
-- If a newer model supersedes these choices, prefer the newer capable model.
-- Record chosen model and fallback reason in the role report.
-
 Do not use subagents for trivial edits, formatting, copy changes, or one-file fixes.
 
-When subagents are used, always write reports under `reports/subagents/<task-slug>/`.
+Use subagents for medium, large, risky, or unclear work. Use `.agents/skills/subagent-workflow` for routing, model choice, planning, reports, review loops, QA behavior, and compaction timing.
 
-- Pass relevant `.agents/project-map.md` areas and folders into each subagent prompt.
-- Ask `team-lead` or the first relevant developer subagent to update `.agents/project-map.md` when task terms do not map to known areas.
-- Maintain `timeline.md` as a short event log: time/order, role, action, decision, outcome.
-- Write each role report as `<role>.md`.
-- If the same role runs again, append a new `## Run N - <short reason>` section instead of rewriting prior runs.
-- Team-lead review runs must state: accepted, needs revision, or rejected; include the critical reason and required developer change.
-- If no tests exist or tests are not requested, QA verifies with static checks and functional/manual scenarios instead.
-- Use table format for every run report.
-- Do not include files read unless they are essential evidence for a decision.
-- Use this report shape only:
-  - `## Run N - <short reason>`
-  - `| Field | Report |` table with `Task`, `Result`, `Changed`, `Verification`, `Next`, and `Final outcome`.
-  - `| Decision | Reason | Outcome |` table for critical decisions only.
-  - `| Step | Critical thinking | Outcome |` table for process summary, max 5 rows.
-- Keep critical thinking short and decision-focused, e.g. rejected a subagent patch because it broke routing ownership.
-- Keep findings inside the decision/process tables; max 5 total decision/process rows each.
-- Keep each run report under 80 lines unless a blocker needs evidence.
-- Use `$caveman lite`: short, clear, no filler.
-- Link reports in the final response.
-- Close subagents after their report is written and their result is integrated.
+Default flow: `business-analyst` business scope -> `team-lead` technical direction -> developer -> `team-lead` review loop -> `qa`.
+
+Subagents must plan before operations, stay within role permissions, write reports under `reports/subagents/<task-slug>/`, and link reports in the final response.
 
 ## Git
 
