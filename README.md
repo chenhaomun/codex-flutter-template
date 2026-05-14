@@ -52,6 +52,6 @@ Skip subagents for small edits like typos, formatting, copy changes, or one-file
 
 Subagent runs write reports under `reports/subagents/<task-slug>/`.
 
-Ask Codex to generate `.agents/project-map.md` after copying so project terms map to the right paths.
+Codex will generate `.agents/project-map.md` when it first works in the copied project.
 
 Default replies use `$caveman lite`. Say `normal mode` to turn it off. Use `$caveman-compress <file>` for memory docs.

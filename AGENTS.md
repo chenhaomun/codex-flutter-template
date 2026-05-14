@@ -28,7 +28,7 @@ Flutter-first coding rules for Codex.
 ## Work Rules
 
 - Read nearby code first.
-- Check `.agents/project-map.md` before broad searches; if missing or stale, infer areas from repo structure and update it.
+- Check `.agents/project-map.md` before broad searches; if missing/empty/stale, run `python .agents/tools/generate_project_map.py --write`.
 - Follow existing architecture, naming, formatting, and test style.
 - Keep changes small and scoped.
 - Prefer minimal-token guidance and output.
@@ -64,7 +64,7 @@ Flutter-first coding rules for Codex.
 - Ensure responsive behavior and needed accessibility.
 - Use configured flavors and `--dart-define-from-file` env files.
 
-## Full-Stack Rules
+## Contract Rules
 
 - When work touches API/backend/data contracts, update connected client, mocks/fixtures, migrations, and verification together.
 - Do not silently change public API behavior.

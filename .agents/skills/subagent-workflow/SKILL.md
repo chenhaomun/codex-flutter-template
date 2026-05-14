@@ -80,6 +80,7 @@ Use `.agents/tools/` at checkpoints, not every turn.
 | Checkpoint | Tool |
 |---|---|
 | Task start, project type unclear | `python .agents/tools/detect_project.py` |
+| Project map missing/empty/stale | `python .agents/tools/generate_project_map.py --write` |
 | Before broad search or after map edits | `python .agents/tools/check_project_map.py` |
 | After medium/large subagent run | `python .agents/tools/count_tokens.py --update --task "<task-slug>"` |
 | Before compaction | `python .agents/tools/count_tokens.py --update --task "<task-slug>"` |

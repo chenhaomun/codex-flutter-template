@@ -35,6 +35,7 @@ Live report. Approximate with words/chars.
 | `.agents/tools/detect_project.py` | Detect repo type with short JSON output. |
 | `.agents/tools/check_project_map.py` | Check mapped folders still exist. |
 | `.agents/tools/count_tokens.py` | Count guidance/report words and optionally append a live log row. |
+| `.agents/tools/generate_project_map.py` | Generate a starter folder-level project map. |
 
 ## Update
 
