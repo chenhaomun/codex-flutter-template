@@ -20,6 +20,13 @@ Flutter-first coding rules for Codex.
 - Build iOS: `flutter build ios --dart-define-from-file=.env.prod.json`.
 - Use existing project scripts when present; do not invent new commands before checking the repo.
 
+## Command Output
+
+- Protect context usage: byte/char-cap commands with unknown or potentially large output.
+- Known-small commands like `git status --short` do not need caps.
+- macOS/Linux: `COMMAND 2>&1 | head -c 4000`.
+- Windows PowerShell: `$out = COMMAND 2>&1 | Out-String; $out.Substring(0, [Math]::Min(4000, $out.Length))`.
+
 ## Work Rules
 
 - Read nearby code first.
