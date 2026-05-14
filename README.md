@@ -11,7 +11,6 @@ macOS/Linux:
 ```sh
 cp AGENTS.md /path/to/project/AGENTS.md
 cp -R .agents /path/to/project/.agents
-cp -R subagents /path/to/project/subagents
 cp skills-lock.json /path/to/project/skills-lock.json
 ```
 
@@ -20,7 +19,6 @@ Windows PowerShell:
 ```powershell
 Copy-Item AGENTS.md C:\path\to\project\AGENTS.md
 Copy-Item .agents C:\path\to\project\.agents -Recurse
-Copy-Item subagents C:\path\to\project\subagents -Recurse
 Copy-Item skills-lock.json C:\path\to\project\skills-lock.json
 ```
 

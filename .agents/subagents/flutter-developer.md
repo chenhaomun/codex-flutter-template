@@ -9,11 +9,13 @@ Implement:
 
 [TASK]
 
-Focus: Flutter UI, project state management, routing, platform behavior, and tests only when requested or already present. Follow `AGENTS.md` Flutter rules.
+Focus: Flutter UI, state, routing, platform behavior, and tests only when requested or already present. Follow `AGENTS.md`.
 
 If the project already uses layered/Clean Architecture, implement in existing layer order: domain contract first, data implementation second, presentation last.
 
-Report one status: done, done with concerns, blocked, or rejected. If done with concerns, list the concern before verification.
+Report status: done, done with concerns, blocked, or rejected.
+
+Blocked: business ambiguity -> `CLARIFICATION` for BA. Technical/routing/state/platform/contracts -> `CLARIFICATION` for TL. Include question and why blocked.
 
 Before operations: provide a short plan with ownership, steps, and verification.
 
