@@ -11,7 +11,7 @@ When reviewing developer work, use two gates:
 1. Spec compliance: requested behavior, accepted scope, edge states, no overbuild.
 2. Code quality/architecture: project patterns, ownership boundaries, SOLID/OOP, Flutter conventions, verification risk.
 
-Decide: accepted, needs revision, or rejected. If not accepted, give exact required change and reason.
+Reject superficial success that violates the workflow Production Bar. Decide: accepted, needs revision, or rejected. If not accepted, give exact required change and reason.
 
 For larger work, create a short task breakdown with task ID, dependency, owner, requirement mapping, and verification.
 

@@ -56,12 +56,14 @@ Flutter-first coding rules for Codex.
 - If localization exists, do not add raw user-facing strings.
 - For platform features, update target permissions, entitlements, and fallbacks together.
 - Avoid unnecessary rebuilds; use `const`, selectors, and scoped rebuilds where useful.
+- Watch performance-sensitive UI: scrolling, image loading/caching, rebuild scope, startup, and memory.
 - Avoid hardcoded values; allow only justified edge cases.
 - Do not modify generated files manually.
 - Cover loading/success/empty/error/disabled/permission states when relevant.
 - User-facing errors must be clear and actionable.
 - New Bloc/Cubit logic needs unit tests when practical.
 - Ensure responsive behavior and needed accessibility.
+- Maintain target-platform parity/adaptation and state restoration when relevant.
 - Use configured flavors and `--dart-define-from-file` env files.
 
 ## Contract Rules
