@@ -8,15 +8,6 @@ Codex maintains this file. When this file is empty, stale, or missing a requeste
 
 No areas mapped yet.
 
-Expected format:
-
-```text
-- area-name
-  - folders: lib/features/example, test/features/example
-  - terms: example, sample, alias
-  - notes: state/routing/API ownership if useful
-```
-
 ## Rules
 
 - Keep area names stable and lowercase.

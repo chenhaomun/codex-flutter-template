@@ -3,7 +3,7 @@
 Caveman memory compression orchestrator.
 
 Usage:
-    python scripts/compress.py <filepath>
+    python3 scripts/compress.py <filepath>
 """
 
 import re

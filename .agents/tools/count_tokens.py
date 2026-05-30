@@ -27,12 +27,17 @@ def size_for(paths: list[Path]) -> tuple[int, int]:
     return words, chars
 
 
-def guidance_paths() -> list[Path]:
-    paths = [ROOT / "AGENTS.md", ROOT / ".agents" / "project-map.md"]
+def always_on_paths() -> list[Path]:
+    return [ROOT / "AGENTS.md", ROOT / ".agents" / "project-map.md"]
+
+
+def handoff_paths() -> list[Path]:
     subagents_dir = ROOT / ".agents" / "subagents"
-    paths += sorted(subagents_dir.glob("*.md")) if subagents_dir.exists() else []
-    paths += sorted((ROOT / ".agents" / "skills").glob("*/SKILL.md"))
-    return paths
+    return sorted(subagents_dir.glob("*.md")) if subagents_dir.exists() else []
+
+
+def skill_paths() -> list[Path]:
+    return sorted((ROOT / ".agents" / "skills").glob("*/SKILL.md"))
 
 
 def report_paths() -> list[Path]:
@@ -78,17 +83,21 @@ def main() -> int:
     parser.add_argument("--task", default="manual", help="Task label for --update.")
     args = parser.parse_args()
 
-    guidance_words, guidance_chars = size_for(guidance_paths())
+    always_words, always_chars = size_for(always_on_paths())
+    handoff_words, handoff_chars = size_for(handoff_paths())
+    skill_words, skill_chars = size_for(skill_paths())
     reports_words, reports_chars = size_for(report_paths())
-    total_words = guidance_words + reports_words
-    total_chars = guidance_chars + reports_chars
+    active_words = always_words + reports_words
+    active_chars = always_chars + reports_chars
 
-    print(f"guidance: {guidance_words} words / {guidance_chars} chars / {risk(guidance_words)}")
+    print(f"always-on: {always_words} words / {always_chars} chars / {risk(always_words)}")
+    print(f"handoff templates: {handoff_words} words / {handoff_chars} chars / on-demand")
+    print(f"skills: {skill_words} words / {skill_chars} chars / on-demand")
     print(f"reports: {reports_words} words / {reports_chars} chars / {risk(reports_words)}")
-    print(f"total: {total_words} words / {total_chars} chars / {risk(total_words)}")
+    print(f"active baseline: {active_words} words / {active_chars} chars / {risk(active_words)}")
 
     if args.update:
-        if append_live_row(args.task, "guidance+reports", total_words, total_chars):
+        if append_live_row(args.task, "active-guidance+reports", active_words, active_chars):
             print("updated: .agents/guidance-token-report.md")
 
     return 0

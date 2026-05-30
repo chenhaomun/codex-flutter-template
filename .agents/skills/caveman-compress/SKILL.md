@@ -25,7 +25,7 @@ Compress natural language Codex memory/instruction files (`AGENTS.md`, `.agents/
 2. From this skill directory, run:
 
 ```bash
-python -m scripts <absolute_filepath>
+python3 -m scripts <absolute_filepath>
 ```
 
 3. The local CLI will:

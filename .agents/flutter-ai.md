@@ -2,35 +2,9 @@
 
 This template includes project-local skills for repeatable Flutter and Dart workflows. Agents should use them only when the task clearly matches the skill and should still inspect local code first.
 
-## Installed Skills
-
-Flutter skills:
-
-- `flutter-add-integration-test`
-- `flutter-add-widget-preview`
-- `flutter-add-widget-test`
-- `flutter-apply-architecture-best-practices`
-- `flutter-build-responsive-layout`
-- `flutter-fix-layout-issues`
-- `flutter-implement-json-serialization`
-- `flutter-setup-declarative-routing`
-- `flutter-setup-localization`
-- `flutter-use-http-package`
-
-Dart skills:
-
-- `dart-add-unit-test`
-- `dart-build-cli-app`
-- `dart-collect-coverage`
-- `dart-fix-runtime-errors`
-- `dart-generate-test-mocks`
-- `dart-migrate-to-checks-package`
-- `dart-resolve-package-conflicts`
-- `dart-run-static-analysis`
-- `dart-use-pattern-matching`
-
 ## Skill Rules
 
+- Installed skills live under `.agents/skills/`.
 - Read the relevant `.agents/skills/<skill>/SKILL.md` before using a skill.
 - Prefer repo conventions over generic examples from a skill.
 - Do not add dependencies, change package choices, or migrate architecture without explicit user approval.
@@ -40,7 +14,7 @@ Dart skills:
 
 Recommended local MCP setup for Codex:
 
-```powershell
+```sh
 codex mcp add dart -- dart mcp-server --force-roots-fallback
 ```
 
@@ -62,9 +36,18 @@ CodeGraph can complement `.agents/project-map.md` with a local semantic index fo
 
 Recommended setup:
 
+macOS/Linux:
+
+```sh
+npx @colbymchenry/codegraph
+codegraph init -i
+```
+
+Windows PowerShell:
+
 ```powershell
 npx.cmd @colbymchenry/codegraph
 codegraph init -i
 ```
 
-Use CodeGraph MCP when `.codegraph/` exists and the tools are available. Keep `.agents/project-map.md` as the lightweight human area map, and do not commit `.codegraph/`.
+Use CodeGraph MCP when `.codegraph/` exists and the tools are available. Keep `.agents/project-map.md` as the lightweight Codex-maintained area map, and do not commit `.codegraph/`.

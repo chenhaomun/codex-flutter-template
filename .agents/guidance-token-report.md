@@ -6,9 +6,7 @@ Live report. Approximate with words/chars.
 
 | Area | Approx size | Token risk | Note |
 |---|---:|---|---|
-| `AGENTS.md` before workflow split | 1,346 words | High | Subagents section was largest. |
-| `AGENTS.md` after workflow split | 807 words | Medium | Detailed subagent rules moved to skill. |
-| `.agents/subagents/*.md` before cleanup | 658 words | Medium | QA, TL, Flutter prompts were biggest. |
+| `AGENTS.md` streamlined | 459 words | Low | Kept always-on rules; moved details on-demand. |
 
 ## Live Run Log
 
@@ -44,5 +42,6 @@ After each subagent run, command output over 2,000 chars, before compaction, and
 ## Notes
 
 - Visible status text consumes context.
+- Vendored skills and subagent templates are on-demand; do not count all as active context.
 - Hidden model reasoning is not repo-controllable.
 - Reports carry decisions/outcomes; live thinking stays minimal.

@@ -95,9 +95,14 @@ def main() -> int:
     areas = detect_areas()
     content = render(areas)
     if args.write:
-        MAP.parent.mkdir(parents=True, exist_ok=True)
-        MAP.write_text(content, encoding="utf-8")
-        print(f"updated: .agents/project-map.md areas={len(areas)}")
+        try:
+            MAP.parent.mkdir(parents=True, exist_ok=True)
+            MAP.write_text(content, encoding="utf-8")
+            print(f"updated: .agents/project-map.md areas={len(areas)}")
+        except OSError:
+            print("write blocked; apply this preview with apply_patch:")
+            print(content[:4000])
+            return 1
     else:
         print(f"preview: areas={len(areas)}")
         print(content[:4000])

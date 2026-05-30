@@ -14,7 +14,20 @@ BA: business scope. TL: architecture/refactor/ownership/risk. Flutter dev: UI/st
 
 ## Model Choice
 
-Choose by complexity: low -> fast capable; medium -> strong coding/reasoning; high -> strongest available. Record model/fallback only when useful.
+Use these default overrides:
+
+| Role | Model |
+|---|---|
+| BA | `gpt-5.4-mini` |
+| TL | `gpt-5.5` |
+| Flutter dev | `gpt-5.3-codex` |
+| Backend/API | `gpt-5.3-codex` |
+| DevOps | `gpt-5.4` |
+| Security | `gpt-5.4` |
+| UX | `gpt-5.4-mini` |
+| QA | `gpt-5.4` |
+
+Override only when task complexity clearly requires a stronger model. If listed model is unavailable, use nearest capable model. Record model and fallback in report.
 
 ## Permissions
 
@@ -57,17 +70,30 @@ For larger work, TL may create task rows with: task, dependency, owner, requirem
 
 Keep slices reviewable. Parallelize only non-overlapping ownership.
 
+## Code Quality
+
+- TL must split medium/large implementation into small slices before coding.
+- Each developer run owns one bounded module or concern. Avoid whole-feature prompts.
+- Developer must read nearby code/tests and state intended files before editing.
+- Developer runs narrow analysis/tests after each slice.
+- TL reviews actual diff after each slice, not report only.
+- TL rejects duplication, oversized files/widgets, mixed responsibilities, missing states/tests, or unrelated edits.
+- Integrate only after each slice passes review.
+- Use stronger model when a slice still needs broad cross-module reasoning.
+
+Typical Flutter slices: domain/contracts -> repository/API -> Bloc/Cubit -> UI -> routing/platform -> tests/regression.
+
 ## Harness Tools
 
 Use `.agents/tools/` at checkpoints, not every turn.
 
 | Checkpoint | Tool |
 |---|---|
-| Task start, project type unclear | `python .agents/tools/detect_project.py` |
-| Project map missing/empty/stale | `python .agents/tools/generate_project_map.py --write` |
-| Before broad search or after map edits | `python .agents/tools/check_project_map.py` |
-| After medium/large subagent run | `python .agents/tools/count_tokens.py --update --task "<task-slug>"` |
-| Before compaction | `python .agents/tools/count_tokens.py --update --task "<task-slug>"` |
+| Task start, project type unclear | `python3 .agents/tools/detect_project.py` |
+| Project map missing/empty/stale | Preview with `python3 .agents/tools/generate_project_map.py`; update via `apply_patch` |
+| Before broad search or after map edits | `python3 .agents/tools/check_project_map.py` |
+| After medium/large subagent run | `python3 .agents/tools/count_tokens.py --update --task "<task-slug>"` |
+| Before compaction | `python3 .agents/tools/count_tokens.py --update --task "<task-slug>"` |
 
 Keep output short. No install/network/destructive action without approval.
 

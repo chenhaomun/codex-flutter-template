@@ -10,12 +10,34 @@ Keep project-local skills current like vendored dependencies. Refresh them separ
 
 ## Official Flutter and Dart Skills
 
+macOS/Linux:
+
+```sh
+npx skills add flutter/skills --skill '*' --agent universal
+npx skills add dart-lang/skills --skill '*' --agent universal
+```
+
+Windows PowerShell:
+
 ```powershell
 npx.cmd skills add flutter/skills --skill '*' --agent universal
 npx.cmd skills add dart-lang/skills --skill '*' --agent universal
 ```
 
+## Official Flutter AI Rules
+
+Review [Flutter AI rules](https://docs.flutter.dev/ai/ai-rules) during refreshes. Selectively merge portable guardrails into `AGENTS.md`; do not copy defaults that conflict with existing project architecture, packages, routing, or state management.
+
 ## Caveman Skills
+
+macOS/Linux:
+
+```sh
+npx skills add JuliusBrussee/caveman --skill caveman --agent universal
+npx skills add JuliusBrussee/caveman --skill caveman-compress --agent universal
+```
+
+Windows PowerShell:
 
 ```powershell
 npx.cmd skills add JuliusBrussee/caveman --skill caveman --agent universal
@@ -28,10 +50,12 @@ If the CLI refuses because a skill already exists, reinstall only that skill aft
 
 ## Review
 
-```powershell
+```sh
 git diff -- .agents/skills skills-lock.json
 ```
 
 Review every changed `SKILL.md` before relying on updated behavior. Pay extra attention to skills that can change dependencies, package choices, architecture, test generation, command execution, or bundled scripts.
+
+Review installer security-risk flags and investigate any high-risk skill before use. Check unexpected lock-hash-only churn against the actual skill diff.
 
 Restart Codex after skill changes so new skill metadata is loaded.

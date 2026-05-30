@@ -111,7 +111,7 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) < 2:
-        print("Usage: python detect.py <file1> [file2] ...")
+        print("Usage: python3 detect.py <file1> [file2] ...")
         sys.exit(1)
 
     for path_str in sys.argv[1:]:
