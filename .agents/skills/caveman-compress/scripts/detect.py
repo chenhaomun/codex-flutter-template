@@ -73,7 +73,7 @@ def detect_file_type(filepath: Path) -> str:
     if ext in SKIP_EXTENSIONS:
         return "code" if ext not in {".json", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".env"} else "config"
 
-    # Extensionless files (like TODO) need content checks.
+    # Extensionless files (like CLAUDE.md, TODO) — check content
     if not ext:
         try:
             text = filepath.read_text(errors="ignore")
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) < 2:
-        print("Usage: python3 detect.py <file1> [file2] ...")
+        print("Usage: python detect.py <file1> [file2] ...")
         sys.exit(1)
 
     for path_str in sys.argv[1:]:

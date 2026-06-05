@@ -192,7 +192,7 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) != 3:
-        print("Usage: python3 validate.py <original> <compressed>")
+        print("Usage: python validate.py <original> <compressed>")
         sys.exit(1)
 
     orig = Path(sys.argv[1]).resolve()

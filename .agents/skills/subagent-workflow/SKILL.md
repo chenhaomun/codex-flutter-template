@@ -50,11 +50,9 @@ Every subagent starts with a short plan: goal, scope, max 3 steps, verification.
 
 ## Production Bar
 
-Developer cannot report `done` unless these pass:
+Developer cannot report `done` unless behavior matches requirements, diff is scoped, project conventions hold, relevant states are handled, verification ran or blocker is stated, and no debug/dead/TODO/generated-file churn remains.
 
-behavior matches requirements; diff is scoped; architecture fits; no unnecessary dependency/framework/service; relevant states are handled; performance-sensitive UI is considered; platform parity/adaptation is preserved; localization/responsive/accessibility conventions are followed; no debug/dead/TODO/generated-file edits; verification run or blocker stated.
-
-If any item fails, return `done with concerns`, `blocked`, or `rejected`.
+Use focused review skills for deeper checks: `production-code-review`, `architecture-review`, `solid-oop-review`, `security-review`, `performance-review`.
 
 ## Gate Lite
 
@@ -70,16 +68,17 @@ For larger work, TL may create task rows with: task, dependency, owner, requirem
 
 Keep slices reviewable. Parallelize only non-overlapping ownership.
 
-## Code Quality
+## Review Skills
 
-- TL must split medium/large implementation into small slices before coding.
-- Each developer run owns one bounded module or concern. Avoid whole-feature prompts.
-- Developer must read nearby code/tests and state intended files before editing.
-- Developer runs narrow analysis/tests after each slice.
-- TL reviews actual diff after each slice, not report only.
-- TL rejects duplication, oversized files/widgets, mixed responsibilities, missing states/tests, or unrelated edits.
-- Integrate only after each slice passes review.
-- Use stronger model when a slice still needs broad cross-module reasoning.
+| Skill | Use for |
+|---|---|
+| `production-code-review` | every non-trivial TL code review |
+| `architecture-review` | boundaries, contracts, ownership, integration risk |
+| `solid-oop-review` | class/refactor design, responsibility, coupling |
+| `security-review` | auth, privacy, permissions, secrets, network, dependency risk |
+| `performance-review` | UI rebuilds, async work, rendering, memory, scaling |
+
+Developer owns one bounded module or concern, reads nearby code/tests, states intended files before editing, and runs narrow verification after each slice. TL reviews actual diff, not report only. Integrate only after review passes.
 
 Typical Flutter slices: domain/contracts -> repository/API -> Bloc/Cubit -> UI -> routing/platform -> tests/regression.
 

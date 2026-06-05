@@ -1,18 +1,26 @@
 #!/usr/bin/env python3
 """
-Caveman memory compression orchestrator.
+Caveman Memory Compression Orchestrator
 
 Usage:
-    python3 scripts/compress.py <filepath>
+    python scripts/compress.py <filepath>
 """
 
+import os
 import re
+import subprocess
 from pathlib import Path
+from typing import List
 
 OUTER_FENCE_REGEX = re.compile(
     r"\A\s*(`{3,}|~{3,})[^\n]*\n(.*)\n\1\s*\Z", re.DOTALL
 )
 
+# Filenames and paths that almost certainly hold secrets or PII. Compressing
+# them ships raw bytes to the Anthropic API — a third-party data boundary that
+# developers on sensitive codebases cannot cross. detect.py already skips .env
+# by extension, but credentials.md / secrets.txt / ~/.aws/credentials would
+# slip through the natural-language filter. This is a hard refuse before read.
 SENSITIVE_BASENAME_REGEX = re.compile(
     r"(?ix)^("
     r"\.env(\..+)?"
@@ -30,141 +38,138 @@ SENSITIVE_BASENAME_REGEX = re.compile(
 SENSITIVE_PATH_COMPONENTS = frozenset({".ssh", ".aws", ".gnupg", ".kube", ".docker"})
 
 SENSITIVE_NAME_TOKENS = (
-    "secret",
-    "credential",
-    "password",
-    "passwd",
-    "apikey",
-    "accesskey",
-    "token",
-    "privatekey",
+    "secret", "credential", "password", "passwd",
+    "apikey", "accesskey", "token", "privatekey",
 )
-
-PHRASE_REPLACEMENTS = (
-    (r"\bin order to\b", "to"),
-    (r"\bmake sure to\b", ""),
-    (r"\byou should\b", ""),
-    (r"\byou must\b", ""),
-    (r"\bit is important to\b", ""),
-    (r"\bit's important to\b", ""),
-    (r"\bit would be good to\b", ""),
-    (r"\bit might be worth\b", ""),
-    (r"\byou could consider\b", "consider"),
-    (r"\bthe reason is because\b", "because"),
-    (r"\butilize\b", "use"),
-    (r"\bimplement a solution for\b", "fix"),
-)
-
-DROP_WORDS = {
-    "just",
-    "really",
-    "basically",
-    "actually",
-    "simply",
-    "essentially",
-    "generally",
-    "however",
-    "furthermore",
-    "additionally",
-}
-
-from .detect import should_compress
-from .validate import validate
 
 
 def is_sensitive_path(filepath: Path) -> bool:
-    """Heuristic denylist for files that must never be compressed."""
+    """Heuristic denylist for files that must never be shipped to a third-party API."""
     name = filepath.name
     if SENSITIVE_BASENAME_REGEX.match(name):
         return True
     lowered_parts = {p.lower() for p in filepath.parts}
     if lowered_parts & SENSITIVE_PATH_COMPONENTS:
         return True
+    # Normalize separators so "api-key" and "api_key" both match "apikey".
     lower = re.sub(r"[_\-\s.]", "", name.lower())
     return any(tok in lower for tok in SENSITIVE_NAME_TOKENS)
 
 
 def strip_llm_wrapper(text: str) -> str:
-    """Strip outer markdown fence when it wraps the entire output."""
-    match = OUTER_FENCE_REGEX.match(text)
-    if match:
-        return match.group(2)
+    """Strip outer ```markdown ... ``` fence when it wraps the entire output."""
+    m = OUTER_FENCE_REGEX.match(text)
+    if m:
+        return m.group(2)
     return text
 
+from .detect import should_compress
+from .validate import validate
 
-def compress_sentence(text: str) -> str:
-    if not text.strip():
-        return text
-
-    protected: list[str] = []
-
-    def protect(match: re.Match[str]) -> str:
-        protected.append(match.group(0))
-        return f"@@CAVEMAN_PROTECTED_{len(protected) - 1}@@"
-
-    result = re.sub(r"`[^`]*`|https?://\S+|\[[^\]]+\]\([^)]+\)", protect, text)
-    for pattern, replacement in PHRASE_REPLACEMENTS:
-        result = re.sub(pattern, replacement, result, flags=re.IGNORECASE)
-
-    words = []
-    for word in result.split():
-        stripped = re.sub(r"^[^\w@]+|[^\w@]+$", "", word).lower()
-        if stripped in DROP_WORDS:
-            continue
-        words.append(word)
-
-    result = " ".join(words)
-    result = re.sub(r"\s+([,.;:!?])", r"\1", result)
-    result = re.sub(r"\s{2,}", " ", result).strip()
-
-    for index, value in enumerate(protected):
-        result = result.replace(f"@@CAVEMAN_PROTECTED_{index}@@", value)
-    return result
+MAX_RETRIES = 2
 
 
-def compress_markdown(original: str) -> str:
-    lines = original.splitlines()
-    compressed_lines = []
-    in_fence = False
+# ---------- Claude Calls ----------
 
-    for line in lines:
-        stripped = line.lstrip()
-        if stripped.startswith("```") or stripped.startswith("~~~"):
-            in_fence = not in_fence
-            compressed_lines.append(line)
-            continue
 
-        if in_fence or stripped.startswith("#"):
-            compressed_lines.append(line)
-            continue
+def call_claude(prompt: str) -> str:
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if api_key:
+        try:
+            import anthropic
 
-        match = re.match(r"^(\s*(?:[-*+]|\d+[.)])\s+)(.*)$", line)
-        if match:
-            compressed_lines.append(match.group(1) + compress_sentence(match.group(2)))
-            continue
+            client = anthropic.Anthropic(api_key=api_key)
+            msg = client.messages.create(
+                model=os.environ.get("CAVEMAN_MODEL", "claude-sonnet-4-5"),
+                max_tokens=8192,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            return strip_llm_wrapper(msg.content[0].text.strip())
+        except ImportError:
+            pass  # anthropic not installed, fall back to CLI
+    # Fallback: use claude CLI (handles desktop auth)
+    try:
+        result = subprocess.run(
+            ["claude", "--print"],
+            input=prompt,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        return strip_llm_wrapper(result.stdout.strip())
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Claude call failed:\n{e.stderr}")
 
-        if "|" in line and line.count("|") >= 2:
-            cells = line.split("|")
-            compressed_lines.append("|".join(compress_sentence(cell) for cell in cells))
-            continue
 
-        compressed_lines.append(compress_sentence(line))
+def build_compress_prompt(original: str) -> str:
+    return f"""
+Compress this markdown into caveman format.
 
-    return "\n".join(compressed_lines) + ("\n" if original.endswith("\n") else "")
+STRICT RULES:
+- Do NOT modify anything inside ``` code blocks
+- Do NOT modify anything inside inline backticks
+- Preserve ALL URLs exactly
+- Preserve ALL headings exactly
+- Preserve file paths and commands
+- Return ONLY the compressed markdown body — do NOT wrap the entire output in a ```markdown fence or any other fence. Inner code blocks from the original stay as-is; do not add a new outer fence around the whole file.
+
+Only compress natural language.
+
+TEXT:
+{original}
+"""
+
+
+def build_fix_prompt(original: str, compressed: str, errors: List[str]) -> str:
+    errors_str = "\n".join(f"- {e}" for e in errors)
+    return f"""You are fixing a caveman-compressed markdown file. Specific validation errors were found.
+
+CRITICAL RULES:
+- DO NOT recompress or rephrase the file
+- ONLY fix the listed errors — leave everything else exactly as-is
+- The ORIGINAL is provided as reference only (to restore missing content)
+- Preserve caveman style in all untouched sections
+
+ERRORS TO FIX:
+{errors_str}
+
+HOW TO FIX:
+- Missing URL: find it in ORIGINAL, restore it exactly where it belongs in COMPRESSED
+- Code block mismatch: find the exact code block in ORIGINAL, restore it in COMPRESSED
+- Heading mismatch: restore the exact heading text from ORIGINAL into COMPRESSED
+- Do not touch any section not mentioned in the errors
+
+ORIGINAL (reference only):
+{original}
+
+COMPRESSED (fix this):
+{compressed}
+
+Return ONLY the fixed compressed file. No explanation.
+"""
+
+
+# ---------- Core Logic ----------
 
 
 def compress_file(filepath: Path) -> bool:
+    # Resolve and validate path
     filepath = filepath.resolve()
-    max_file_size = 500_000
+    MAX_FILE_SIZE = 500_000  # 500KB
     if not filepath.exists():
         raise FileNotFoundError(f"File not found: {filepath}")
-    if filepath.stat().st_size > max_file_size:
+    if filepath.stat().st_size > MAX_FILE_SIZE:
         raise ValueError(f"File too large to compress safely (max 500KB): {filepath}")
 
+    # Refuse files that look like they contain secrets or PII. Compressing ships
+    # the raw bytes to the Anthropic API — a third-party boundary — so we fail
+    # loudly rather than silently exfiltrate credentials or keys. Override is
+    # intentional: the user must rename the file if the heuristic is wrong.
     if is_sensitive_path(filepath):
         raise ValueError(
             f"Refusing to compress {filepath}: filename looks sensitive "
             "(credentials, keys, secrets, or known private paths). "
+            "Compression sends file contents to the Anthropic API. "
             "Rename the file if this is a false positive."
         )
 
@@ -178,50 +183,72 @@ def compress_file(filepath: Path) -> bool:
     backup_path = filepath.with_name(filepath.stem + ".original.md")
 
     if not original_text.strip():
-        print("Refusing to compress: file is empty or whitespace-only.")
+        print("❌ Refusing to compress: file is empty or whitespace-only.")
         return False
 
+    # Check if backup already exists to prevent accidental overwriting
     if backup_path.exists():
-        print(f"Backup file already exists: {backup_path}")
+        print(f"⚠️ Backup file already exists: {backup_path}")
         print("The original backup may contain important content.")
-        print("Aborting to prevent data loss. Remove or rename the backup file to proceed.")
+        print("Aborting to prevent data loss. Please remove or rename the backup file if you want to proceed.")
         return False
 
-    print("Compressing locally...")
-    compressed = strip_llm_wrapper(compress_markdown(original_text))
+    # Step 1: Compress
+    print("Compressing with Claude...")
+    compressed = call_claude(build_compress_prompt(original_text))
 
-    if not compressed.strip():
-        print("Compression aborted: compressor returned empty output.")
-        print("Original file untouched; no backup created.")
+    if compressed is None or not compressed.strip():
+        print("❌ Compression aborted: Claude returned an empty response.")
+        print("   Original file is untouched (no backup created).")
         return False
 
     if compressed.strip() == original_text.strip():
-        print("Compression aborted: output is identical to input.")
-        print("File may already be compact. Original file untouched; no backup created.")
+        print("❌ Compression aborted: output is identical to input.")
+        print("   Likely causes: Claude refused, returned the prompt verbatim, or the file is")
+        print("   already in caveman form. Original file is untouched (no backup created).")
         return False
 
+    # Save original as backup, then verify the backup readback before
+    # touching the input file. If the filesystem dropped bytes (encoding,
+    # antivirus, disk full), unlink the bad backup and abort instead of
+    # leaving the user with a corrupt backup + compressed primary.
     backup_path.write_text(original_text)
     backup_readback = backup_path.read_text(errors="ignore")
     if backup_readback != original_text:
-        print(f"Backup write verification failed: {backup_path}")
-        print("Aborting before touching input file.")
+        print(f"❌ Backup write verification failed: {backup_path}")
+        print("   In-memory original differs from on-disk backup. Aborting before touching the input file.")
         try:
             backup_path.unlink()
         except OSError:
             pass
         return False
-
     filepath.write_text(compressed)
 
-    result = validate(backup_path, filepath)
-    if result.is_valid:
-        print("Validation passed")
-        return True
+    # Step 2: Validate + Retry
+    for attempt in range(MAX_RETRIES):
+        print(f"\nValidation attempt {attempt + 1}")
 
-    print("Validation failed:")
-    for err in result.errors:
-        print(f"   - {err}")
-    filepath.write_text(original_text)
-    backup_path.unlink(missing_ok=True)
-    print("Original restored")
-    return False
+        result = validate(backup_path, filepath)
+
+        if result.is_valid:
+            print("Validation passed")
+            break
+
+        print("❌ Validation failed:")
+        for err in result.errors:
+            print(f"   - {err}")
+
+        if attempt == MAX_RETRIES - 1:
+            # Restore original on failure
+            filepath.write_text(original_text)
+            backup_path.unlink(missing_ok=True)
+            print("❌ Failed after retries — original restored")
+            return False
+
+        print("Fixing with Claude...")
+        compressed = call_claude(
+            build_fix_prompt(original_text, compressed, result.errors)
+        )
+        filepath.write_text(compressed)
+
+    return True
