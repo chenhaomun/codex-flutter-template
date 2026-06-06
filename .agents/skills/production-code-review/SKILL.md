@@ -13,10 +13,11 @@ Review actual code or diff, not only reports.
 |---|---|
 | Requirement fit | Behavior misses requirement, overbuilds scope, or changes unrelated behavior |
 | Correctness | Edge case, null, async, lifecycle, race, stale state, or error path is unsafe |
-| Maintainability | Names, structure, duplication, or file size makes future change harder |
+| Maintainability | Names, structure, duplication, unnecessary abstraction, or file size makes future change harder |
 | Integration | API, model, route, permission, env, migration, or platform contract changed silently |
 | Verification | No meaningful check was run and no blocker explains why |
 | Cleanliness | Debug code, TODO without owner, dead code, generated-file edits, or unrelated churn remains |
+| Simplicity | Implementation is more complex than the requirement or project pattern needs |
 
 ## Output
 

@@ -52,7 +52,7 @@ Every subagent starts with a short plan: goal, scope, max 3 steps, verification.
 
 Developer cannot report `done` unless behavior matches requirements, diff is scoped, project conventions hold, relevant states are handled, verification ran or blocker is stated, and no debug/dead/TODO/generated-file churn remains.
 
-Use focused review skills for deeper checks: `production-code-review`, `architecture-review`, `solid-oop-review`, `security-review`, `performance-review`.
+Use focused review skills for deeper checks: `production-code-review`, `architecture-review`, `solid-oop-review`, `dry-review`, `kiss-review`, `security-review`, `performance-review`.
 
 ## Gate Lite
 
@@ -75,6 +75,8 @@ Keep slices reviewable. Parallelize only non-overlapping ownership.
 | `production-code-review` | every non-trivial TL code review |
 | `architecture-review` | boundaries, contracts, ownership, integration risk |
 | `solid-oop-review` | class/refactor design, responsibility, coupling |
+| `dry-review` | duplicated rules, mappings, setup, or drift-prone copy/paste |
+| `kiss-review` | over-engineering, avoidable indirection, unnecessary abstraction |
 | `security-review` | auth, privacy, permissions, secrets, network, dependency risk |
 | `performance-review` | UI rebuilds, async work, rendering, memory, scaling |
 
@@ -84,15 +86,15 @@ Typical Flutter slices: domain/contracts -> repository/API -> Bloc/Cubit -> UI -
 
 ## Harness Tools
 
-Use `.agents/tools/` at checkpoints, not every turn.
+Use `.agents/tools/` at checkpoints, not every turn. Use the available Python command for the local OS (`python`, `python3`, or bundled runtime).
 
 | Checkpoint | Tool |
 |---|---|
-| Task start, project type unclear | `python3 .agents/tools/detect_project.py` |
-| Project map missing/empty/stale | Preview with `python3 .agents/tools/generate_project_map.py`; update via `apply_patch` |
-| Before broad search or after map edits | `python3 .agents/tools/check_project_map.py` |
-| After medium/large subagent run | `python3 .agents/tools/count_tokens.py --update --task "<task-slug>"` |
-| Before compaction | `python3 .agents/tools/count_tokens.py --update --task "<task-slug>"` |
+| Task start, project type unclear | `<python> .agents/tools/detect_project.py` |
+| Project map missing/empty/stale | Preview with `<python> .agents/tools/generate_project_map.py`; update via `apply_patch` |
+| Before broad search or after map edits | `<python> .agents/tools/check_project_map.py` |
+| After medium/large subagent run | `<python> .agents/tools/count_tokens.py --update --task "<task-slug>"` |
+| Before compaction | `<python> .agents/tools/count_tokens.py --update --task "<task-slug>"` |
 
 Keep output short. No install/network/destructive action without approval.
 
