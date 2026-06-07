@@ -35,6 +35,7 @@ Override only when task complexity clearly requires a stronger model. If listed 
 - Write-capable only with explicit ownership: Flutter, backend/API, DevOps.
 - QA must not add test files unless the user asks for tests.
 - Developers must not edit outside ownership without reporting why.
+- Developers must auto-consider `test-driven-development` for clear behavior changes and may add/update scoped tests without waiting for explicit TDD instruction.
 
 ## Plan Before Operations
 
@@ -50,9 +51,9 @@ Every subagent starts with a short plan: goal, scope, max 3 steps, verification.
 
 ## Production Bar
 
-Developer cannot report `done` unless behavior matches requirements, diff is scoped, project conventions hold, relevant states are handled, verification ran or blocker is stated, and no debug/dead/TODO/generated-file churn remains.
+Developer cannot report `done` unless behavior matches requirements, diff is scoped, project conventions hold, relevant states are handled, TDD was used or skipped for a stated reason when behavior changed, verification ran or blocker is stated, and no debug/dead/TODO/generated-file churn remains.
 
-Use focused review skills for deeper checks: `production-code-review`, `architecture-review`, `solid-oop-review`, `dry-review`, `kiss-review`, `security-review`, `performance-review`.
+Use focused skills for deeper checks: `test-driven-development`, `production-code-review`, `architecture-review`, `solid-oop-review`, `dry-review`, `kiss-review`, `security-review`, `performance-review`.
 
 ## Gate Lite
 
@@ -73,6 +74,7 @@ Keep slices reviewable. Parallelize only non-overlapping ownership.
 | Skill | Use for |
 |---|---|
 | `production-code-review` | every non-trivial TL code review |
+| `test-driven-development` | clear behavior changes needing red/green/refactor |
 | `architecture-review` | boundaries, contracts, ownership, integration risk |
 | `solid-oop-review` | class/refactor design, responsibility, coupling |
 | `dry-review` | duplicated rules, mappings, setup, or drift-prone copy/paste |
@@ -80,7 +82,7 @@ Keep slices reviewable. Parallelize only non-overlapping ownership.
 | `security-review` | auth, privacy, permissions, secrets, network, dependency risk |
 | `performance-review` | UI rebuilds, async work, rendering, memory, scaling |
 
-Developer owns one bounded module or concern, reads nearby code/tests, states intended files before editing, and runs narrow verification after each slice. TL reviews actual diff, not report only. Integrate only after review passes.
+Developer owns one bounded module or concern, reads nearby code/tests, states intended files before editing, auto-uses `test-driven-development` for clear behavior changes, and runs narrow verification after each slice. TL reviews actual diff, not report only. Integrate only after review passes.
 
 Typical Flutter slices: domain/contracts -> repository/API -> Bloc/Cubit -> UI -> routing/platform -> tests/regression.
 

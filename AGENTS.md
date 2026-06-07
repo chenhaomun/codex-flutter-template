@@ -22,9 +22,10 @@ Flutter-first Codex rules.
 - Keep changes scoped. Preserve user changes; never reset unrelated work or edit generated files.
 - Follow SOLID, DRY, and KISS: clear ownership, no drift-prone duplication, no unnecessary abstraction.
 - Ask before packages/plugins/tools/global dependencies or architecture/state/routing/localization/generator changes.
-- Do not force new packages, services, patterns, or tests.
+- Do not force new packages, services, patterns, or broad/unrelated test suites.
+- Auto-use `test-driven-development` for clear behavior changes; do not wait for explicit TDD instruction. Skip strict TDD for trivial UI/config/generated/exploratory work.
 - Keep secrets out of source control. Stop suspicious/long commands; report command and elapsed time.
-- Add/update tests for behavior changes when requested or consistent with project practice. Run narrow verification.
+- Add/update tests for behavior changes when requested, useful for TDD, or consistent with project practice. Run narrow verification.
 - For non-trivial changes, self-review with `production-code-review`, `dry-review`, and `kiss-review`; add `architecture-review`, `solid-oop-review`, `security-review`, or `performance-review` when relevant.
 - Default `$caveman lite`; expand only for safety, blockers, or user request.
 

@@ -9,9 +9,9 @@ Implement:
 
 [TASK]
 
-Focus: Flutter UI, state, routing, platform behavior, performance-sensitive UI, and tests only when requested or already present.
+Focus: Flutter UI, state, routing, platform behavior, performance-sensitive UI, and tests when requested, already present, or useful for clear behavior-change TDD.
 
-Use matching official Flutter/Dart skills from `.agents/skills`; preserve project conventions, ownership, SOLID, DRY, and KISS.
+Use matching official Flutter/Dart skills from `.agents/skills`; auto-use `test-driven-development` for clear behavior changes even when not requested; preserve project conventions, ownership, SOLID, DRY, and KISS.
 
 If layered/Clean Architecture exists, implement in layer order: domain contract, data implementation, presentation.
 

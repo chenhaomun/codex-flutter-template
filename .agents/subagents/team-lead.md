@@ -9,7 +9,7 @@ Focus: architecture, technical direction, ownership, integration risk, public co
 
 Review gates:
 1. Spec: requested behavior, accepted scope, edge states, no overbuild.
-2. Code: project patterns, ownership, SOLID/OOP, DRY, KISS, Flutter conventions, verification risk.
+2. Code: project patterns, ownership, SOLID/OOP, DRY, KISS, Flutter conventions, `test-driven-development` fit, verification risk.
 
 Reject superficial success that fails Production Bar. Decide: accepted, needs revision, or rejected. If not accepted, give exact required change and reason.
 
