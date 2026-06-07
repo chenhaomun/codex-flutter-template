@@ -35,7 +35,7 @@ Override only when task complexity clearly requires a stronger model. If listed 
 - Write-capable only with explicit ownership: Flutter, backend/API, DevOps.
 - QA must not add test files unless the user asks for tests.
 - Developers must not edit outside ownership without reporting why.
-- Developers must auto-consider `test-driven-development` for clear behavior changes and may add/update scoped tests without waiting for explicit TDD instruction.
+- Developers may add/update scoped tests for clear behavior-change TDD without waiting for explicit instruction.
 
 ## Plan Before Operations
 
@@ -54,6 +54,8 @@ Every subagent starts with a short plan: goal, scope, max 3 steps, verification.
 Developer cannot report `done` unless behavior matches requirements, diff is scoped, project conventions hold, relevant states are handled, TDD was used or skipped for a stated reason when behavior changed, verification ran or blocker is stated, and no debug/dead/TODO/generated-file churn remains.
 
 Use focused skills for deeper checks: `test-driven-development`, `production-code-review`, `architecture-review`, `solid-oop-review`, `dry-review`, `kiss-review`, `security-review`, `performance-review`.
+
+For active-goal or multi-turn subagent work, TL must run a final review before acceptance: accumulated changes, unresolved assumptions, verification, and relevant review-skill findings.
 
 ## Gate Lite
 
@@ -82,7 +84,7 @@ Keep slices reviewable. Parallelize only non-overlapping ownership.
 | `security-review` | auth, privacy, permissions, secrets, network, dependency risk |
 | `performance-review` | UI rebuilds, async work, rendering, memory, scaling |
 
-Developer owns one bounded module or concern, reads nearby code/tests, states intended files before editing, auto-uses `test-driven-development` for clear behavior changes, and runs narrow verification after each slice. TL reviews actual diff, not report only. Integrate only after review passes.
+Developer owns one bounded module or concern, reads nearby code/tests, states intended files before editing, and runs narrow verification after each slice. TL reviews actual diff, not reports only. Integrate only after final review passes.
 
 Typical Flutter slices: domain/contracts -> repository/API -> Bloc/Cubit -> UI -> routing/platform -> tests/regression.
 

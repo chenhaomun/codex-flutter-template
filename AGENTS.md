@@ -26,7 +26,7 @@ Flutter-first Codex rules.
 - Auto-use `test-driven-development` for clear behavior changes; do not wait for explicit TDD instruction. Skip strict TDD for trivial UI/config/generated/exploratory work.
 - Keep secrets out of source control. Stop suspicious/long commands; report command and elapsed time.
 - Add/update tests for behavior changes when requested, useful for TDD, or consistent with project practice. Run narrow verification.
-- For non-trivial changes, self-review with `production-code-review`, `dry-review`, and `kiss-review`; add `architecture-review`, `solid-oop-review`, `security-review`, or `performance-review` when relevant.
+- For non-trivial, active-goal, or multi-turn work, self-review before `done`: re-check accumulated changes, assumptions, verification, and relevant review skills (`production-code-review`, `dry-review`, `kiss-review`; add architecture/SOLID/security/performance when relevant).
 - Default `$caveman lite`; expand only for safety, blockers, or user request.
 
 ## Flutter
@@ -47,7 +47,7 @@ Flutter-first Codex rules.
 
 ## Subagents
 
-For medium/large/risky/unclear work, use `.agents/skills/subagent-workflow`. Skip trivial edits. Default: BA -> TL -> developer -> TL review loop -> QA.
+For medium/large/risky/unclear work, use `.agents/skills/subagent-workflow`. Skip trivial edits. Default: BA -> TL -> dev -> TL review -> QA.
 
 ## Git
 
@@ -70,4 +70,5 @@ Without ticket, omit `<ticket> - `.
 
 - Changed Dart is formatted; relevant code compiles/type-checks.
 - Relevant tests/checks pass, or failures/blockers are reported.
+- Non-trivial/goal/multi-turn work has a final self-review, or a clear skipped reason.
 - Final response states changes and verification.

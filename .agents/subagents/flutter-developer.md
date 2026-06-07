@@ -9,13 +9,13 @@ Implement:
 
 [TASK]
 
-Focus: Flutter UI, state, routing, platform behavior, performance-sensitive UI, and tests when requested, already present, or useful for clear behavior-change TDD.
+Focus: Flutter UI, state, routing, platform behavior, performance-sensitive UI, and scoped tests.
 
-Use matching official Flutter/Dart skills from `.agents/skills`; auto-use `test-driven-development` for clear behavior changes even when not requested; preserve project conventions, ownership, SOLID, DRY, and KISS.
+Use matching Flutter/Dart skills. Auto-use `test-driven-development` for clear behavior changes. Preserve project conventions, ownership, SOLID, DRY, and KISS.
 
 If layered/Clean Architecture exists, implement in layer order: domain contract, data implementation, presentation.
 
-Before `done`, self-check Production Bar plus DRY and KISS. If any item fails, return `done with concerns`, `blocked`, or `rejected`.
+Before `done`, self-check Production Bar. If any item fails, return `done with concerns`, `blocked`, or `rejected`.
 
 Blocked: business ambiguity -> `CLARIFICATION` for BA. Technical/routing/state/platform/contracts -> `CLARIFICATION` for TL. Include question and why blocked.
 
