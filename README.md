@@ -64,4 +64,10 @@ codex mcp add openaiDeveloperDocs --url https://developers.openai.com/mcp
 
 Restart Codex if the MCP tools do not appear after install. This is local Codex config, not copied by the template.
 
+Optional shared Codex device setup lives in `.codex/`. Preview with:
+
+```sh
+python .codex/install.py --dry-run
+```
+
 Default replies use `$caveman lite`. Say `normal mode` to turn it off. Use `$caveman-compress <file>` for memory docs.
