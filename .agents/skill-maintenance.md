@@ -28,6 +28,16 @@ npx.cmd skills add dart-lang/skills --skill '*' --agent universal
 
 Review [Flutter AI rules](https://docs.flutter.dev/ai/ai-rules) during refreshes. Selectively merge portable guardrails into `AGENTS.md`; do not copy defaults that conflict with existing project architecture, packages, routing, or state management.
 
+## OpenAI Docs MCP
+
+For current OpenAI/Codex docs lookup, Codex should ask permission and install this MCP on demand if missing:
+
+```sh
+codex mcp add openaiDeveloperDocs --url https://developers.openai.com/mcp
+```
+
+Restart Codex if tools do not appear after install. This is device-local config, not template state.
+
 ## Caveman Skills
 
 macOS/Linux:

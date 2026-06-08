@@ -56,4 +56,12 @@ Codex will generate `.agents/project-map.md` when it first works in the copied p
 
 Refresh vendored Flutter/Dart skills using `.agents/skill-maintenance.md`.
 
+For current OpenAI/Codex docs, Codex can install the docs MCP on demand when needed. It will ask permission before running:
+
+```sh
+codex mcp add openaiDeveloperDocs --url https://developers.openai.com/mcp
+```
+
+Restart Codex if the MCP tools do not appear after install. This is local Codex config, not copied by the template.
+
 Default replies use `$caveman lite`. Say `normal mode` to turn it off. Use `$caveman-compress <file>` for memory docs.

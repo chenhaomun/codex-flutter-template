@@ -14,31 +14,28 @@ Flutter-first Codex rules.
 
 ## Work Rules
 
-- Read nearby code and follow existing architecture, naming, formatting, state, routing, theme, localization, API, generator, platform, and test patterns.
-- Check `.agents/project-map.md` before broad searches; if missing/empty/stale, preview with available Python command plus `.agents/tools/generate_project_map.py`, then update via `apply_patch`.
-- Use only relevant `.agents/skills/<skill>/SKILL.md`; project conventions override generic examples.
-- Auto-use `grill-requirements` when request lacks acceptance criteria, scope, target flow/state, or has contradictions likely to cause rework. Ask max 3 blocking questions; otherwise proceed with stated assumptions.
+- Read nearby code; follow existing architecture, naming, state, routing, theme, l10n, API, generator, platform, and test patterns.
+- Check `.agents/project-map.md` before broad search; if missing/stale, preview `<python> .agents/tools/generate_project_map.py`, then update via `apply_patch`.
+- Use relevant `.agents/skills/<skill>/SKILL.md`; project conventions beat generic examples.
+- Auto-use `grill-requirements` when acceptance, scope, target flow/state, or contradictions may cause rework. Ask max 3 blocking questions; else state assumptions and proceed.
 - Prefer Dart/Flutter MCP for analyzer, symbols, fixes, format, tests, pub.dev, dependencies, and running-app/widget inspection.
-- For refactor, rename/move, architecture review, unclear bug, API/model contract change, cross-module feature, dead code, or risky cleanup: use CodeGraph MCP if `.codegraph/` exists; if missing and task is large/risky, ask before generating it; otherwise use `rg`.
-- Keep changes scoped. Preserve user changes; never reset unrelated work or edit generated files.
-- Follow SOLID, DRY, and KISS: clear ownership, no drift-prone duplication, no unnecessary abstraction.
-- Ask before packages/plugins/tools/global dependencies or architecture/state/routing/localization/generator changes.
-- Do not force new packages, services, patterns, or broad/unrelated test suites.
-- Use `test-driven-development` when behavior is clear and regression risk justifies it. Skip for trivial UI/config/generated/exploratory work and low-risk medium edits.
-- Keep secrets out of source control. Stop suspicious/long commands; report command and elapsed time.
-- Add/update tests for behavior changes when requested, useful for TDD, or consistent with project practice. Run narrow verification.
-- Apply tiered review: small = quick self-check; medium single-owner = `production-code-review` only, plus at most one specialist skill when risk needs it; large/risky/multi-agent = full review.
+- For refactor/rename/architecture/unclear bug/API contract/cross-module/dead code/risky cleanup: use CodeGraph if `.codegraph/` exists; ask before generating for large/risky work; else use `rg`.
+- Keep changes scoped. Preserve user changes. Never reset unrelated work or edit generated files.
+- Follow SOLID/DRY/KISS. Ask before packages/tools/global deps or architecture/state/routing/l10n/generator changes.
+- No forced packages, services, patterns, or broad test suites.
+- Use `test-driven-development` only when clear behavior + regression risk justify it; skip trivial/low-risk edits.
+- Keep secrets out. Stop suspicious/long commands; report command + elapsed.
+- Add/update tests when requested, useful for TDD, or matching project practice. Run narrow verification.
+- Tiered review: small = self-check; medium single-owner = `production-code-review` + max one specialist; large/risky/multi-agent = full review.
 - Default `$caveman lite`; expand only for safety, blockers, or user request.
 
 ## Flutter
 
 - Check `analysis_options.yaml` and `.agents/flutter-dependencies.md`.
-- Prefer composition, immutable widgets, and `const`; keep `build()` pure/fast and business logic outside widgets.
-- Use lazy builders for long lists; move expensive work off UI thread when needed.
+- Prefer composition, immutable widgets, `const`, pure/fast `build()`, lazy lists, and off-UI-thread expensive work.
 - Keep null safety; avoid `!` unless guaranteed. Use project logging, not `print`.
-- Reuse design components, assets, themes, and tokens.
-- Preserve localization, responsive/accessibility behavior, platform parity, permissions, entitlements, and fallbacks.
-- Cover relevant loading, success, empty, error, disabled, and permission states. Keep errors actionable.
+- Reuse design assets/theme/tokens. Preserve l10n, responsive/a11y, platform parity, permissions, entitlements, fallbacks.
+- Cover loading, success, empty, error, disabled, and permission states. Keep errors actionable.
 - Use configured flavors and `--dart-define-from-file`.
 
 ## Contracts
