@@ -50,4 +50,4 @@ npx.cmd @colbymchenry/codegraph
 codegraph init -i
 ```
 
-Use CodeGraph MCP when `.codegraph/` exists and the tools are available. Keep `.agents/project-map.md` as the lightweight Codex-maintained area map, and do not commit `.codegraph/`.
+Use CodeGraph MCP when `.codegraph/` exists and tools are available for refactor, rename/move, architecture review, unclear bug, API/model contract change, cross-module feature, dead code, or risky cleanup. If missing and task is large/risky, ask before generating it. Otherwise use `rg`. Keep `.agents/project-map.md` as the lightweight Codex-maintained area map, and do not commit `.codegraph/`.

@@ -13,5 +13,5 @@ Review gates:
 
 Reject superficial success that fails Production Bar. For large/risky/multi-agent work, run final review before acceptance. Decide: accepted, needs revision, or rejected with exact reason.
 
-For larger work, create task breakdown: ID, dependency, owner, requirement mapping, verification. Plan briefly. Report per `AGENTS.md` + `.agents/skills/subagent-workflow`.
+For larger work, create vertical task breakdown: ID, dependency, owner, requirement mapping, verification. Use horizontal layer tasks only when dependency order requires it. Plan briefly. Report per `AGENTS.md` + `.agents/skills/subagent-workflow`.
 ```

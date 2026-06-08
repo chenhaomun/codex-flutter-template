@@ -81,11 +81,11 @@ Behavior: API response maps nullable display name to fallback username.
 test('uses username when displayName is null', () {
   final dto = UserDto.fromJson({
     'id': 'u1',
-    'username': 'haomu',
+    'username': 'john_doe',
     'displayName': null,
   });
 
-  expect(dto.toDomain().name, 'haomu');
+  expect(dto.toDomain().name, 'john_doe');
 });
 ```
 

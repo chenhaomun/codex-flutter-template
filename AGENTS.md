@@ -17,8 +17,9 @@ Flutter-first Codex rules.
 - Read nearby code and follow existing architecture, naming, formatting, state, routing, theme, localization, API, generator, platform, and test patterns.
 - Check `.agents/project-map.md` before broad searches; if missing/empty/stale, preview with available Python command plus `.agents/tools/generate_project_map.py`, then update via `apply_patch`.
 - Use only relevant `.agents/skills/<skill>/SKILL.md`; project conventions override generic examples.
+- Auto-use `grill-requirements` when request lacks acceptance criteria, scope, target flow/state, or has contradictions likely to cause rework. Ask max 3 blocking questions; otherwise proceed with stated assumptions.
 - Prefer Dart/Flutter MCP for analyzer, symbols, fixes, format, tests, pub.dev, dependencies, and running-app/widget inspection.
-- Use CodeGraph MCP when `.codegraph/` exists for semantic search and impact.
+- For refactor, rename/move, architecture review, unclear bug, API/model contract change, cross-module feature, dead code, or risky cleanup: use CodeGraph MCP if `.codegraph/` exists; if missing and task is large/risky, ask before generating it; otherwise use `rg`.
 - Keep changes scoped. Preserve user changes; never reset unrelated work or edit generated files.
 - Follow SOLID, DRY, and KISS: clear ownership, no drift-prone duplication, no unnecessary abstraction.
 - Ask before packages/plugins/tools/global dependencies or architecture/state/routing/localization/generator changes.

@@ -10,11 +10,12 @@ Create a concise subagent task brief from raw requirements.
 
 Rules:
 - Keep business requirements separate from technical direction.
+- Auto-use `grill-requirements` first when requirements are broad, contradictory, missing acceptance criteria, missing target flow/state, or likely to cause rework.
 - Make `Task` one clear outcome.
 - Make `Requirements` business/product-focused bullets.
 - Make `Verify` include useful commands and manual checks.
 - Add `Suggested subagents` based on AGENTS.md routing.
-- Add `Ambiguities` only when a decision is blocked.
+- Add `Clarifying questions` only when blocked; max 3 by default.
 - Do not invent technical implementation details.
 - Use `$caveman lite`.
 
@@ -34,6 +35,9 @@ Verify:
 - <command or manual check>
 - <command or manual check>
 
-Ambiguities:
-- <question or assumption, or None>
+Clarifying questions:
+- <blocking question, or None>
+
+Assumptions:
+- <safe assumption, or None>
 ```

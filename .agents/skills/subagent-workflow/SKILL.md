@@ -6,7 +6,7 @@ description: >
   multi-agent work.
 ---
 
-Use only for medium, large, risky, or unclear work.
+Use only for medium, large, risky, or unclear work. Auto-use `grill-requirements` before planning when requirements are unclear, missing acceptance criteria, missing target flow/state, contradictory, or likely to cause rework.
 
 ## Routing
 
@@ -69,7 +69,7 @@ Clarifications include owner, question, why blocked, options/default only when u
 
 For larger work, TL may create task rows with: task, dependency, owner, requirement, verification.
 
-Keep slices reviewable. Parallelize only non-overlapping ownership.
+Prefer vertical slices that deliver reviewable behavior end-to-end. Use horizontal layer tasks only when dependency order requires it. Parallelize only non-overlapping ownership.
 
 ## Quality Tiers
 
@@ -86,6 +86,7 @@ Keep slices reviewable. Parallelize only non-overlapping ownership.
 | Skill | Use for |
 |---|---|
 | `production-code-review` | medium+ review |
+| `grill-requirements` | unclear scope, missing acceptance, likely rework |
 | `test-driven-development` | clear behavior changes with meaningful regression risk |
 | `architecture-review` | boundaries, contracts, ownership, integration risk |
 | `solid-oop-review` | class/refactor design, responsibility, coupling |
