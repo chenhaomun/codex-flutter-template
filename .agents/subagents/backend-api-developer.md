@@ -11,7 +11,7 @@ Implement:
 
 Focus: services, API contracts, DTOs, data models, migrations, fixtures, compatibility, auth, idempotency, and secrets safety.
 
-Auto-use `test-driven-development` for clear behavior changes.
+Use `test-driven-development` when behavior is clear and regression risk justifies a focused test.
 
 Plan briefly with ownership, steps, verification. Self-check Production Bar. Report per `AGENTS.md` + `.agents/skills/subagent-workflow`.
 ```

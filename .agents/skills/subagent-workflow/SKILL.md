@@ -35,7 +35,7 @@ Override only when task complexity clearly requires a stronger model. If listed 
 - Write-capable only with explicit ownership: Flutter, backend/API, DevOps.
 - QA must not add test files unless the user asks for tests.
 - Developers must not edit outside ownership without reporting why.
-- Developers may add/update scoped tests for clear behavior-change TDD without waiting for explicit instruction.
+- Developers may add/update scoped tests when behavior is clear and regression risk justifies TDD.
 
 ## Plan Before Operations
 
@@ -44,18 +44,18 @@ Every subagent starts with a short plan: goal, scope, max 3 steps, verification.
 ## Execution
 
 - Use one stable kebab-case `task-slug` for `reports/subagents/<task-slug>/` during the whole task.
-- Flow: BA -> TL -> developer -> developer self-check -> TL production review -> developer revision -> QA.
+- Flow: choose tier first. Medium single-owner may use TL -> developer -> quick TL review. Large/risky uses BA -> TL -> developer -> developer self-check -> TL review -> developer revision -> QA.
 - TL review: spec compliance first, code quality/architecture second.
 - Repeat TL loop until accepted; stop after 3 rounds.
 - Parallelize only independent work; prefer isolated/forked context.
 
 ## Production Bar
 
-Developer cannot report `done` unless behavior matches requirements, diff is scoped, project conventions hold, relevant states are handled, TDD was used or skipped for a stated reason when behavior changed, verification ran or blocker is stated, and no debug/dead/TODO/generated-file churn remains.
+Developer cannot report `done` unless behavior matches requirements, diff is scoped, project conventions hold, relevant states are handled, verification ran or blocker is stated, and no debug/dead/TODO/generated-file churn remains.
 
 Use focused skills for deeper checks: `test-driven-development`, `production-code-review`, `architecture-review`, `solid-oop-review`, `dry-review`, `kiss-review`, `security-review`, `performance-review`.
 
-For active-goal or multi-turn subagent work, TL must run a final review before acceptance: accumulated changes, unresolved assumptions, verification, and relevant review-skill findings.
+For large/risky or multi-agent work, TL runs final review before acceptance: accumulated changes, unresolved assumptions, verification, and relevant review-skill findings.
 
 ## Gate Lite
 
@@ -71,12 +71,22 @@ For larger work, TL may create task rows with: task, dependency, owner, requirem
 
 Keep slices reviewable. Parallelize only non-overlapping ownership.
 
+## Quality Tiers
+
+| Tier | Use |
+|---|---|
+| Trivial | No subagent, no TDD/review skill |
+| Small | Direct work + quick self-check |
+| Medium single-owner | One developer, `production-code-review` only, max one specialist skill |
+| Medium behavior risk | Add TDD only when focused test fits existing project |
+| Large/risky/multi-agent | Full TL/dev/TL/QA loop and relevant specialist skills |
+
 ## Review Skills
 
 | Skill | Use for |
 |---|---|
-| `production-code-review` | every non-trivial TL code review |
-| `test-driven-development` | clear behavior changes needing red/green/refactor |
+| `production-code-review` | medium+ review |
+| `test-driven-development` | clear behavior changes with meaningful regression risk |
 | `architecture-review` | boundaries, contracts, ownership, integration risk |
 | `solid-oop-review` | class/refactor design, responsibility, coupling |
 | `dry-review` | duplicated rules, mappings, setup, or drift-prone copy/paste |
@@ -84,7 +94,7 @@ Keep slices reviewable. Parallelize only non-overlapping ownership.
 | `security-review` | auth, privacy, permissions, secrets, network, dependency risk |
 | `performance-review` | UI rebuilds, async work, rendering, memory, scaling |
 
-Developer owns one bounded module or concern, reads nearby code/tests, states intended files before editing, and runs narrow verification after each slice. TL reviews actual diff, not reports only. Integrate only after final review passes.
+Developer owns one bounded module or concern, reads nearby code/tests, states intended files before editing, and runs narrow verification after each slice. TL reviews actual diff, not reports only. Integrate after tier-matched review passes.
 
 Typical Flutter slices: domain/contracts -> repository/API -> Bloc/Cubit -> UI -> routing/platform -> tests/regression.
 

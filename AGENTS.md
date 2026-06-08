@@ -23,10 +23,10 @@ Flutter-first Codex rules.
 - Follow SOLID, DRY, and KISS: clear ownership, no drift-prone duplication, no unnecessary abstraction.
 - Ask before packages/plugins/tools/global dependencies or architecture/state/routing/localization/generator changes.
 - Do not force new packages, services, patterns, or broad/unrelated test suites.
-- Auto-use `test-driven-development` for clear behavior changes; do not wait for explicit TDD instruction. Skip strict TDD for trivial UI/config/generated/exploratory work.
+- Use `test-driven-development` when behavior is clear and regression risk justifies it. Skip for trivial UI/config/generated/exploratory work and low-risk medium edits.
 - Keep secrets out of source control. Stop suspicious/long commands; report command and elapsed time.
 - Add/update tests for behavior changes when requested, useful for TDD, or consistent with project practice. Run narrow verification.
-- For non-trivial, active-goal, or multi-turn work, self-review before `done`: re-check accumulated changes, assumptions, verification, and relevant review skills (`production-code-review`, `dry-review`, `kiss-review`; add architecture/SOLID/security/performance when relevant).
+- Apply tiered review: small = quick self-check; medium single-owner = `production-code-review` only, plus at most one specialist skill when risk needs it; large/risky/multi-agent = full review.
 - Default `$caveman lite`; expand only for safety, blockers, or user request.
 
 ## Flutter
@@ -70,5 +70,5 @@ Without ticket, omit `<ticket> - `.
 
 - Changed Dart is formatted; relevant code compiles/type-checks.
 - Relevant tests/checks pass, or failures/blockers are reported.
-- Non-trivial/goal/multi-turn work has a final self-review, or a clear skipped reason.
+- Medium+ work has review level matched to risk, or a clear skipped reason.
 - Final response states changes and verification.

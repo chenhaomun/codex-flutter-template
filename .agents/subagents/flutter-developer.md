@@ -9,9 +9,9 @@ Implement:
 
 [TASK]
 
-Focus: Flutter UI, state, routing, platform behavior, performance-sensitive UI, and scoped tests.
+Focus: Flutter UI, state, routing, platform behavior, performance-sensitive UI, and scoped tests when risk justifies them.
 
-Use matching Flutter/Dart skills. Auto-use `test-driven-development` for clear behavior changes. Preserve project conventions, ownership, SOLID, DRY, and KISS.
+Use matching Flutter/Dart skills. Use `test-driven-development` only when behavior is clear and regression risk justifies a focused test. Preserve project conventions, ownership, SOLID, DRY, and KISS.
 
 If layered/Clean Architecture exists, implement in layer order: domain contract, data implementation, presentation.
 
