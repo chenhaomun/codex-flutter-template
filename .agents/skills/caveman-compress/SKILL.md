@@ -1,8 +1,9 @@
 ---
 name: caveman-compress
 description: >
-  Compress natural language memory files (CLAUDE.md, todos, preferences) into caveman format
-  to save input tokens. Preserves all technical substance, code, URLs, and structure.
+  Compress natural language Codex memory/instruction files (AGENTS.md, .agents/*.md,
+  todos, preferences) into caveman format to save input tokens. Preserves technical
+  substance, code, URLs, and structure. Local deterministic compressor; no network.
   Compressed version overwrites the original file. Human-readable backup saved as FILE.original.md.
   Trigger: /caveman-compress FILEPATH or "compress memory file"
 ---
@@ -11,7 +12,7 @@ description: >
 
 ## Purpose
 
-Compress natural language files (CLAUDE.md, todos, preferences) into caveman-speak to reduce input tokens. Compressed version overwrites original. Human-readable backup saved as `<filename>.original.md`.
+Compress natural language Codex memory/instruction files into caveman-speak to reduce input tokens. Compressed version overwrites original. Human-readable backup saved as `<filename>.original.md`.
 
 ## Trigger
 
@@ -27,11 +28,9 @@ python3 -m scripts <absolute_filepath>
 
 3. The CLI will:
 - detect file type (no tokens)
-- call Claude to compress
+- compress prose locally with deterministic rules
 - validate output (no tokens)
-- if errors: cherry-pick fix with Claude (targeted fixes only, no recompression)
-- retry up to 2 times
-- if still failing after 2 retries: report error to user, leave original file untouched
+- if validation fails: restore original and remove backup
 
 4. Return result to user
 
@@ -109,3 +108,4 @@ Compressed:
 - If unsure whether something is code or prose, leave it unchanged
 - Original file is backed up as FILE.original.md before overwriting
 - Never compress FILE.original.md (skip it)
+- This project-local copy is Codex-only and local-only: no external model API, no external agent CLI, no network
